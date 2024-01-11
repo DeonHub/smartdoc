@@ -1,0 +1,155 @@
+{% extends 'doctor/base.html' %}
+
+{% block style %}
+
+.appointments-table{
+  margin-left: 5%;
+  width:70vw;
+  background-color:white;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+{% endblock %}
+
+{% block body %}
+
+
+ <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                  <h4 class="text-center" style="width:100%">Appointments Panel</h4>
+              </li>
+             </ol>
+
+            <!-- Icon Cards-->
+            <div class="row">
+
+
+
+            <div class="col-sm-8">
+                {% comment %} <h4 class="text-center alert alert-info">List of Patient Appointment</h4> {% endcomment %}
+                <center class="appointments-table">
+                <table class="table table-hover table-striped" id="appointments_table">
+                    <thead>
+                        <tr>
+                            <th scope="col">User ID</th>
+                            <th scope="col">Patient</th>
+                            <th scope="col">Appointment Date/Time</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Arrange Appointment</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mytable">
+
+                        {% for d in appointments %}
+                        <tr>
+                            <td>{{ d.patient.profile.usercode }}</td>
+                            <td>{{ d.patient.username }}</td>
+                            {% if d.approved %}
+                            <td>{{ d.appointment_day|date:"d M, Y" }} <br> {{ d.time }} </td>
+                            {% else %}
+                            <td>Not Yet Set</td>
+                            {% endif %}
+
+                            <td> {% if d.approved == True %}
+                                Approved
+                                {% else %}
+                                Pending
+                            {% endif %}</td>
+                            <td>
+                              {% if d.approved %}
+                                <button class="btn btn-secondary btn-sm" type="button"  disabled>Arranged</button>
+
+                              {% else %}
+                                <button class="btn btn-success btn-sm btn_plan" type="button" data-sid="{{ d.id }}" data-uid="{{ d.patient.id }}" data-toggle="modal" data-target="#form">Arrange</button>
+                              {% endif %}
+
+                            </td>
+
+                      
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+               
+
+                <div id="ment_result" class="col-sm-10 offset-sm-3"></div>
+
+              </center>
+ 
+              
+<!--  Appointment Modal -->
+<div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title" id="exampleModalLabel">Arrange Appointment For Patient</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form method="POST" id="myform">
+        <div class="modal-body">
+
+
+    <input type="hidden"  value="" name="" id="prediction_id">
+    <input type="hidden"  value="" name="" id="user_id">
+
+
+  
+
+          <div class="form-group">
+            <label for="password1">Day</label>
+            <input type="date"  value="dd-mm-yyyy"
+                        
+                        id="end_date"
+                        class="form-control" name="birth_date"  placeholder="Birth Date" required="required">
+          </div>
+
+
+                  <div class="form-group">
+            <label for="password1">Time</label>
+            <input type="time" class="form-control" id="time" placeholder="Time">
+          </div>
+
+
+        </div>
+        <div class="modal-footer border-top-0 d-flex justify-content-center">
+          <button type="button" class="btn btn-success modal_ment" id="">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- End of Appointment Modal -->
+
+                <div id="ment_result" class="col-sm-10 offset-sm-3"></div>
+
+              
+
+            </div>
+
+
+                
+
+
+            </div>
+        </div>
+        </div>
+
+          
+          
+
+{% endblock %}
+
+{% block script %} 
+  document.getElementById('end_date').min = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0]
+{% endblock %}
+

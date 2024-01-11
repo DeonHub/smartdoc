@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width">
+
+      <link rel="icon" href="{% static 'core/img/smart-remove.png' %}" type="image/png" />
+      <title>Smart Doctor | {{ page }} </title>
+
+           <!-- Font Awesome -->
+          <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+          <!-- Google Fonts -->
+          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+          <!-- MDB -->
+          <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet" />
+
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&family=Shadows+Into+Light&display=swap');
+       
+        
+        body{
+            background-image: url("../static/core/img/team/f1.jpg"); 
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat;
+          }
+
+        .top-image{
+            width: 32%;
+            height: 32%;
+            margin:0 0 10% 0;
+        }
+    </style>
+
+</head>
+
+<body style="height:100%;">
+
+<!-- Section: Design Block -->
+
+  <div class="container py-5 text-center" style="">
+
+    <center>
+      <div class="col-lg-6 mb-5 mb-lg-0" style="margin-top:0%;">
+        <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+        <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+        <div class="card bg-glass" >
+          <div class="card-body px-4 py-5 px-md-5">
+
+            <h3 style=" font-family:Poppins;">Login Page</h3>
+
+            {% csrf_token %}
+
+
+            <form method="post" id="login-form">
+
+             {% csrf_token %}
+            
+             <a href="/">
+              <img src="{% static 'core/img/smart-remove.png' %}" alt="company-logo" class="top-image" style="" />
+             </a>
+
+
+              <h2 class="" style="color:black; font-weight:bold; margin-top:-10%;"></h2>
+              {% comment %} <p class="mb-5" style="color:black;">Your convenient & secure financial management portal</p> {% endcomment %}
+
+              <!-- Email input -->
+
+              <div class="form-outline mb-4 mt-4">
+                <input type="text" id="email" class="form-control" name="username" required/>
+                <label class="form-label" for="form3Example3">Username</label>
+              </div>
+
+              <div class="form-outline mb-4 mt-4">
+                <input type="password" id="password" class="form-control" name="password" required/>
+                <label class="form-label" for="form3Example3">Password</label>
+              </div>
+
+              <div class="input-text">
+                <div class="form-outline d-flex flex-row" style="margin-top:-6%;">
+                  <input type="checkbox" id="show_pass" class="form-check " onchange="togglePassword()" /><p id="show" class="mt-3 ml-2" style="font-size:13px; margin-left:2%;">Show Password</p>
+                </div>
+             </div>
+
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-sm btn-block mb-4" style="background-color: #007bff; color:white;" id="login">Login</button>
+
+            </form>
+
+
+
+            <div class="row">
+              <div class="col">
+                <a href="/" style="color:black;">About Us</a>
+              </div>
+
+              <div class="col">
+                <a href="{% url 'password_reset' %}" style="color:black;">Forgot Password</a>
+              </div>
+
+            </div> 
+
+            <div class="row mt-3">
+              <div class="col mt-3">
+                <p>Don't have an account? <a href="{% url 'register' %}" class="link-info" style="color:#007bff;">Register here</a></p>
+              </div>
+              
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </center>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+  </div>
+
+
+
+    
+
+
+
+<!-- MDB -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<!-- MDB -->
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"
+></script>
+
+<script>
+  {% if messages %}
+  {% for msg in messages %}
+
+    swal('{{ msg }}');
+
+  {% endfor %}
+
+{% endif %}
+</script> 
+
+<script>
+  function togglePassword() {
+
+    var x = document.getElementById("password");
+  
+
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+
+  }
+
+  
+  const loginForm = document.getElementById('login-form');
+  const login = document.getElementById('login');
+  
+
+  // Listen for form submission
+  login.addEventListener('click', (event) => {
+
+    const requiredInputs = Array.from(document.querySelectorAll("[required]"));
+    const emptyFields = [];
+
+
+     requiredInputs.forEach(function(input) {
+      if (input.value === "") {
+        emptyFields.push(input.name);
+      }
+    });
+
+
+    if (emptyFields.length > 0) {
+      event.preventDefault();
+      alert("Please fill in the required fields: " + emptyFields.join(", "));
+      return;
+    }else{
+
+      event.preventDefault()
+
+      // Generate random 16 hexadecimal value
+      const session_id = [...Array(32)].map(() => Math.floor(Math.random() * 32).toString(32)).join('');
+  
+      document.cookie = `session_id=${session_id}; expires=Thu, 01 Jan 2024 00:00:00 UTC; path=/`;
+      localStorage.setItem('session_id', session_id);
+      loginForm.submit()
+
+    }
+
+
+    
+  });
+
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <style>
+        .top-image{
+            width: 20%;
+            height: 20%;
+            margin:0 0 5% 0;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align:center;">
+        <img src="https://res.cloudinary.com/bloody123/image/upload/v1693270841/Screenshot_112_yecqyq.png" alt="logo" class="top-image">
+    </div>
+    <p>Hello, <b>{{ username }}</b></p>
+    <p>We are pleased to confirm your appointment with <b> Dr. {{ doctor_name }}</b> on <b>{{ appointment_date }}</b> at <b>{{ appointment_time }}</b>.</p>
+    <p>Thank you for choosing us!</p>
+
+    <br>
+    <p>Regards,</p>
+    <p><b>Smart Doctor</b></p>
+</body>
+</html>

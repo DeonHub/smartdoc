@@ -1,0 +1,97 @@
+<script type="text/javascript">
+$(document).ready(function(){
+		
+	  
+  $('#tbody').on("click", ".btn_recommend", function(){
+	let diagnosis = $(this).attr("data-sid");
+	$('#diagnosis_id').val(diagnosis);
+
+  });
+
+
+  // Recommend Drug
+	$('#myform').on("click", ".recommend_drug", function(){
+
+		var pk = $('#diagnosis_id').val();
+		var drug = $('#myform #drug').val();
+
+
+		mydata = { pk:pk, drug:drug };
+
+		$.ajax({
+			url: "{% url 'doctor_recommend' %}",
+			method: "POST",
+			data:mydata,
+
+			success:function(data){
+				pk = ''
+				drug = ''
+				alert("Drug recommended successfully")
+				window.location.href = "{% url 'commend' %}"
+
+			}
+		});
+
+
+	
+	});  
+
+
+
+
+
+
+  // Arrange Appointment
+  $('#mytable').on("click", ".btn_plan", function(){
+	let disease = $(this).attr("data-sid");
+	let user_id = $(this).attr("data-uid");
+
+	$('#prediction_id').val(disease);
+	$('#user_id').val(user_id);
+
+	console.log(prediction_id)
+	console.log(user_id)
+
+
+  });
+
+
+
+
+
+
+  // Book appointment
+  $('#myform').on("click", ".modal_ment", function(){
+
+  	var pk = $('#prediction_id').val();
+
+  	var day = $('#myform #end_date').val();
+  	var time = $('#myform #time').val();
+  	var user_id = $('#user_id').val();
+
+
+	mydata = { pk:pk, day:day, time:time, user_id: user_id };
+
+	$.ajax({
+		url: "{% url 'savement' %}",
+		method: "POST",
+		data:mydata,
+
+		success:function(data){
+			day = ''
+			time = ''
+			alert("Appointement date and time set successfully")
+			window.location.href = "{% url 'meet_list' %}"
+
+		}
+	});
+
+	
+  });  
+
+
+
+
+
+});
+</script>

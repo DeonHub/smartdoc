@@ -1,0 +1,143 @@
+{% extends 'doctor/base.html' %}
+
+{% block style %}
+
+.diagnosis-table{
+  margin-left: 5%;
+  width:70vw;
+  background-color:white;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+{% endblock %}
+
+{% block body %}
+
+
+ <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <h4 class="text-center" style="width:100%">Drug Recommendation Panel</h4>
+              </li>
+            </ol>
+
+            <!-- Icon Cards-->
+            <div class="">
+
+
+
+            <div class="">
+                {% comment %} <h4 class="text-center alert alert-info">List Of Disease Diagnosed</h4> {% endcomment %}
+
+                <center class="diagnosis-table">
+
+                <table class="table table-hover table-striped" id="recommendations_table">
+                    <thead>
+                        <tr>
+                            {% comment %} <th scope="col">Id</th> {% endcomment %}
+                            <th scope="col">Username</th>
+                            <th scope="col">Disease</th>
+                            <th scope="col">Drug Recommended</th>
+                            <th scope="col">Diagnosis Date</th>
+                            <th scope="col">Action</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                  <input type="hidden"  value="{{ user.id }}" name="" id="user_id">
+
+                          {% for d in disease %}
+                          <tr>
+                              {% comment %} <td>{{ d.id }}</td> {% endcomment %}
+                              <td>{{ d.patient.username }}</td>
+                              <td>{{ d.disease }}</td>
+                              {% if d.medicine == "" or  d.medicine == "See Doctor" %}
+                              <td>Not Yet Recommended</td>
+                              {% else %}
+                              <td>{{ d.medicine }}</td>
+                              {% endif %}
+                              <td>{{ d.created_on }}</td>
+                              <td>
+                                {% if d.medicine == "" or  d.medicine == "See Doctor" %}
+                                <button class="btn btn-primary btn-sm btn_recommend" type="button" data-sid="{{ d.id }}" data-toggle="modal" data-target="#form">Recommend</button>
+
+                                {% else %}
+                                <button class="btn btn-secondary" type="button" disabled>Recommended</button>
+
+                                {% endif %}
+                            </td>
+                            
+                          </tr>
+
+                          {% endfor %}
+                      </tbody>
+                </table>
+
+
+
+                <div id="ment_result" class="col-sm-10 offset-sm-3"></div>
+              </center>
+
+
+
+
+<!--  Appointment Modal -->
+<div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title" id="exampleModalLabel">Recommend Drug For Patient</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <center>
+      <form method="POST" id="myform">
+        <div class="modal-body">
+
+          <input type="hidden"  value="" id="diagnosis_id">
+
+          <div class="form-group">
+            <label for="password1">Recommended Drug</label>
+            <input type="text" class="form-control" id="drug" placeholder="Enter recommended drug name...">
+          </div>
+
+
+        </div>
+        <div class="modal-footer border-top-0 d-flex justify-content-center">
+          <button type="button" class="btn btn-success recommend_drug" id="">Submit</button>
+        </div>
+      </form>
+    </center>
+
+
+
+    </div>
+  </div>
+</div>
+<!-- End of Appointment Modal -->
+
+
+
+              
+
+            </div>
+
+
+                
+
+
+            </div>
+        </div>
+        </div>
+
+{% endblock %}
+
+

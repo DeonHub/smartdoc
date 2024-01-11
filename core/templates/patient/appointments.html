@@ -1,0 +1,119 @@
+{% extends 'patient/base.html' %}
+
+{% block style %}
+
+.appointments-table{
+  margin-left: 5%;
+  width:70vw;
+  background-color:white;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+{% endblock %}
+
+{% block body %}
+
+
+ <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <h4 class="text-center" style="width:100%">Appointments Panel</h4>
+                </li>
+            </ol>
+
+            <!-- Icon Cards-->
+            <div class="row">
+
+
+
+            <div class="col-sm-8">
+
+                <center class="appointments-table">
+                <table class="table table-hover table-striped" id="appointments_table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            {% comment %} <th scope="col">Patient</th> {% endcomment %}
+                            <th scope="col">Status</th>
+                            <th scope="col">Day</th>
+                            <th scope="col">Time</th>
+                            <th scope="col">Doctor</th>
+                            <th scope="col">Doctor Contact</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <input type="hidden"  value="{{ user.id }}" name="" id="user_id">
+
+                        {% for d in ment %}
+                        <tr>
+                            <td>{{ d.id }}</td>
+
+
+                            {% comment %} <td>{{ d.patient.username }}</td> {% endcomment %}
+
+
+                            {% if d.approved == False %}
+                            <td>Pending</td>
+                            {% else %}
+                            <td>Approved</td>
+                            {% endif %}
+
+
+                            {% if d.appointment_day == None %}
+                            <td>Not Set</td>
+                            {% else %}
+                            <td>{{ d.appointment_day|date:"M d, Y" }}</td>
+                            {% endif %}
+
+
+                            {% if d.time == None %}
+                            <td>Not Set</td>
+                            {% else %}
+                            <td>{{ d.time }}</td>
+                            {% endif %}
+
+
+                            {% if d.doctor.username == Null %}
+                            <td>None</td>
+                            {% else %}
+                            <td>{{ d.doctor.username }}</td>
+                            {% endif %}
+
+
+                            {% if d.doctor.phonenumber == Null %}
+                            <td>None</td>
+                            {% else %}
+                            <td>{{ d.doctor.phonenumber }}</td>
+                            {% endif %}
+                      
+
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div id="ment_result" class="col-sm-10 offset-sm-3"></div>
+
+                </center>
+              
+
+            </div>
+
+
+                
+
+
+            </div>
+        </div>
+        </div>
+
+{% endblock %}
+

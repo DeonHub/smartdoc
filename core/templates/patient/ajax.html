@@ -1,0 +1,135 @@
+<script type="text/javascript">
+$(document).ready(function(){
+		
+   // Predict Disease
+   $('#predict_btn').click(function(){
+			var info = [
+			"There are chances you have ",
+			"Based on the diagnosis you have",
+			"It appears that you might have ",
+			"Considering your symptoms, it's possible you have ",
+			"From what you've described, you may be experiencing ",
+			"The signs suggest that you could be dealing with ",
+			"It seems like there's a possibility of ",
+			"Your symptoms align with the possibility of "
+		];
+
+
+		var s1 = $('#Symptom1').val();
+		var s2 = $('#Symptom2').val();
+		var s3 = $('#Symptom3').val();
+		var s4 = $('#Symptom4').val();
+		var s5 = $('#Symptom5').val();
+		var id = $('#user_id').val();
+
+
+		if(s1 == ""){
+    	alert("Please Enter 1st Symptom")
+        }else if(s2 == ""){
+    	alert("Please Enter 2nd Symptom")
+        }else if(s3 == ""){
+       alert("Please Enter 3rd Symptom")
+       }else if(s4 == ""){
+       	alert("Please Enter 4th Symptom")
+       }else if(s5 == ""){
+       	alert("Please Enter 5th Symptom")
+       }else{
+
+       	mydata = {id:id,s2:s2, s3:s3, s4:s4, s5:s5,s1:s1};
+		$.ajax({
+			url: "{% url 'predict' %}",
+			method: "POST",
+			data:mydata,
+
+			success:function(data){
+				disease = data.disease; 
+				medicine = data.medicine;
+				status = data.status;
+				console.log(status)
+
+				
+
+				var randomInfo = info[Math.floor(Math.random() * info.length)]; // Randomly pick a string from the info array
+				
+				if(status == 'true'){
+					var predictionText = randomInfo + " <b>" + disease+ "</b>" + ".<br><br>I recommend you start taking <b>" + medicine + "</b> according to the instructions will help your recovery.";
+			
+				}else{
+					var predictionText = randomInfo + " <b>" + disease+ "</b>" + ".<br><br>I cannot recommend any medicine for this condition but I suggest you see Doctor for medicine.";
+				} 
+
+				// Set the value of an input field with the id "prediction" to the prediction text
+				document.getElementById('result').innerHTML = predictionText;
+
+
+			}
+		});
+
+       }
+      
+      })
+
+
+
+
+
+  // Make Appointment
+  $('#tbody').on("click", ".btn_ment", function(){
+  	// console.log('Button Appointment Clicked');
+	let disease = $(this).attr("data-sid");
+	var userid = $('#user_id').val();
+
+	console.log(userid)
+
+	if(confirm("Are you sure you want to request an appointment?")){
+
+		mydata = { disease: disease, userid: userid };
+
+
+
+		$.ajax({
+			url: "{% url 'request_appointment' %}",
+			method: "POST",
+			data: mydata,
+
+
+			success:function(data){
+				userid = ''
+				alert("Appointment request sent successfully")
+				window.location.href = "{% url 'result' %}"
+
+			}
+		});
+	}
+
+
+  });
+
+
+
+
+  // Make Appointment
+  $('#tbody').on("click", ".btn_view", function(){
+  	console.log('Button Symptoms Clicked');
+	let disease = $(this).attr("data-sid");
+	var userid = $('#tbody #user_id').val();
+
+	console.log('Prediction ID is',disease);
+	console.log('User ID is',userid);
+
+	mydata = {disease:disease, userid:userid};
+		$.ajax({
+			url: "",
+			method: "POST",
+			data:mydata,
+
+			success:function(data){
+				console.log('Data Sent To The Backend');
+
+			}
+		});
+  });
+
+
+});
+</script>

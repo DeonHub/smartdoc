@@ -1,0 +1,253 @@
+{% extends 'doctor/base.html' %}
+{% block style %}
+.drug{ font-size:50px; } 
+.col{
+  padding: 0px;
+  margin-top: 5%;
+  margin-left : 1%;
+  {% comment %} margin-right: 52%; {% endcomment %}
+}
+
+
+.chart{
+  width: 80vw;
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  margin-left: 22px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.chart1{
+  border-right: 1px groove black;
+  width: 80%;
+}
+
+.chart2{
+  width: 100%;
+  padding-top: 10%;
+}
+
+.statistics-text{
+  margin-top: 10%;
+}
+
+
+{% endblock %} 
+{% block body %}
+
+
+ <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                  <h4 class="text-center" style="width:100%">Dashboard</h4>
+              </li>
+          </ol>
+
+            <!-- Icon Cards-->
+            <div class="row">
+
+
+                    <div class="col-xl-3 col-sm-6 mb-3">
+                    <div class="card text-white bg-info o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-capsules"></i>
+                            </div>
+                            <div class="mr-5 drug">{{ drug }}</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="">
+                            <span class="float-left">Total Drug Recommended</span><br>
+                            <span class="float-left">More Info</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-3">
+                    <div class="card text-white bg-info o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-diagnoses"></i>
+                            </div>
+                            <div class="mr-5 drug">{{ patient }}</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="">
+                            <span class="float-left">Total Patient</span><br>
+                            <span class="float-left">More Info</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-sm-6 mb-3">
+                    <div class="card text-white bg-info o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-book-medical"></i>
+                            </div>
+                            <div class="mr-5 drug">{{ appointment }}</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="">
+                            <span class="float-left">Appointments Made</span><br>
+                            <span class="float-left">More Info</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-sm-6 mb-3" >
+                    <div class="card text-white bg-info o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div class="mr-5 drug">{{ doctor }}</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="">
+                            <span class="float-left">Total Doctors</span><br>
+                            <span class="float-left">More Info</span>
+                            <span class="float-right">
+                  <i class="fas fa-angle-right"></i>
+                </span>
+                        </a>
+                    </div>
+                </div>      
+          </div>
+        </div>
+     
+
+
+        {% comment %} Chart goes here {% endcomment %}
+
+        <center>
+        <h2 class="statistics-text mb-3">System Statistics</h2>
+        </center>
+
+        <div class="chart">
+          <div class="chart1">
+            <canvas id="myChart"></canvas>
+          </div>
+
+          <div class="chart2">
+            <canvas id="myChart2"></canvas>
+          </div>
+
+
+        </div>
+
+      </div>
+        
+
+
+      <script>
+        const ctx = document.getElementById('myChart');
+        const ctx2 = document.getElementById('myChart2');
+      
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels:["Total Patients", "Total Doctors", "Total Appointments", "Total Drugs Recommended"],
+            datasets: [{
+              label: 'System Statistics',
+              data: {{ info|safe }},
+              backgroundColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(55, 206, 86, 1)',
+                  'rgba(75, 192, 190, 1)',
+                  'rgba(153, 12, 255, 1)',
+                  'rgba(255, 159, 64, 1)',
+                  'rgba(54, 16, 235, 1)',
+                  'rgba(25, 99, 132, 1)',
+                  'rgba(255, 159, 50, 1)',
+                  'rgba(250, 99, 132, 1)',
+                  'rgba(54, 162, 25, 1)',
+                  'rgba(255, 26, 86, 1)',
+                  'rgba(75, 192, 190, 1)',
+                  'rgba(255, 159, 64, 1)',
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(75, 192, 192, 1)',
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 0)',
+                  'rgba(54, 162, 235, 0)',
+                  'rgba(255, 206, 86, 0)',
+                  'rgba(75, 192, 192, 0)',
+                  'rgba(153, 102, 255, 0)',
+                  'rgba(255, 159, 64, 0)',
+                  'rgba(54, 162, 235, 0)',
+                  'rgba(255, 99, 132, 0)',
+                  'rgba(153, 102, 255, 0)',
+
+              ],
+              hoverOffset: 5,
+              borderWidth: 10
+
+            }]
+          },
+          options: {
+            responsive: true,
+
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+
+
+        new Chart(ctx2, {
+          type: 'bar',
+          data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+              label: '# of Votes',
+              data: [12, 19, 3, 5, 2, 3],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 99, 132, 1)',
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 99, 132, 1)',
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      </script>
+
+{% endblock %}
+
