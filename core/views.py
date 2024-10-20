@@ -19,16 +19,6 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
 
-def about(request):
-	return render(request, 'about.html')
-
-
-def doctor_list(request):
-	return render(request, 'doctors.html')
-
-
-def home(request):
-	return render(request, 'home.html')
 
 
 

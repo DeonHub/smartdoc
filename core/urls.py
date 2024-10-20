@@ -6,10 +6,10 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 
-path('', views.home, name='home'),
-# path('register/', views.registerView, name='reg'),
+# path('', views.home, name='home'),
+# path('test/', views.test, name='test'),
 path('register/', views.registerUser, name='register'),
-path('login/', views.loginView, name='login'),
+path('', views.loginView, name='login'),
 
 
 
@@ -42,8 +42,7 @@ path('doctor/appointments', views.doctor_appointments, name='meet_list'),
 
 # path('commend/predict', views.MakeMend, name='mend'),
 path('meet/save/', views.SaveMent, name='savement'),
-path('doctors/', views.doctor_list, name='dr_list'),
-path('about/', views.about, name='about'),
+
 
 
 
