@@ -339,8 +339,9 @@ def patient_result(request):
 	template_name = 'patient/result.html'
 	page = "Patient Results"
 	user_id = request.user.id
-	disease = Medical.objects.filter(patient_id=user_id)
-	appointments = Appointment.objects.filter(patient_id=user_id)
+	disease = Medical.objects.filter(patient_id=user_id).order_by('-created_on')
+	appointments = Appointment.objects.filter(patient_id=user_id).order_by('-created_on')
+	print("Appointments", appointments)
 
 	user = request.user
 	profile = Profile.objects.get(user=user)
@@ -391,7 +392,7 @@ def request_appointment(request):
 
 def patient_appointments(request):
 	user_id = request.user.id
-	appointment = Appointment.objects.all().filter(patient_id=user_id)
+	appointment = Appointment.objects.all().filter(patient_id=user_id).order_by('-created_on')
 	user = request.user
 	profile = Profile.objects.get(user=user)
 
@@ -456,7 +457,7 @@ def doctor_appointments(request):
 	template_name = 'doctor/appointments.html'
 	page = "Doctor Appointments"
 	user_id = request.user.id
-	appointments = Appointment.objects.all()
+	appointments = Appointment.objects.all().order_by('-created_on')
 	user = request.user
 	profile = Profile.objects.get(user=user)
 

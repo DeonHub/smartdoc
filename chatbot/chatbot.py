@@ -12,8 +12,8 @@ import numpy as np
 from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 
-import nltk
-nltk.download('wordnet')
+# import nltk
+# nltk.download('wordnet')
 
 from nltk.corpus import wordnet as wn
 
