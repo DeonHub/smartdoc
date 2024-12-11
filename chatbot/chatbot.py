@@ -4,7 +4,7 @@ import random
 from django.http import JsonResponse
 import joblib
 # import language_tool_python
-# from spellchecker import SpellChecker
+from spellchecker import SpellChecker
 
 import numpy as np
 
@@ -38,7 +38,7 @@ class ChatBot:
     def __init__(self):
         self.symptoms = set()
         # self.language_tool = language_tool_python.LanguageTool('en-US')
-        # self.spell = SpellChecker()
+        self.spell = SpellChecker()
         self.asked_questions = set()
         self.usercode = ''
         self.username = ''
